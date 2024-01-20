@@ -14,10 +14,10 @@ const connection = mysql.createConnection({
 function deleteAllData() {
 
     connection.query(`
-        DELETE FROM Users;
-        DELETE FROM Authorities;
         DELETE FROM Comments;
         DELETE FROM Posts;
+        DELETE FROM Authorities;
+        DELETE FROM Users;
     `);
 
     console.log('All rows removed.');
@@ -26,10 +26,10 @@ function deleteAllData() {
 function generateTables() {
 
     connection.query(`
-        DROP TABLE IF EXISTS Users;
-        DROP TABLE IF EXISTS Authorities;
         DROP TABLE IF EXISTS Comments;
         DROP TABLE IF EXISTS Posts;
+        DROP TABLE IF EXISTS Authorities;
+        DROP TABLE IF EXISTS Users;
         
         CREATE TABLE IF NOT EXISTS Users (
             username VARCHAR(50) PRIMARY KEY,
@@ -144,6 +144,6 @@ connection.connect();
 //deleteAllData();
 generateTables();
 generateUsers();
-generateTestData();
+//generateTestData();
 
 connection.end();
