@@ -38,29 +38,33 @@ function generateTables() {
         );
         
         CREATE TABLE IF NOT EXISTS Authorities (
-            username VARCHAR(50) NOT NULL REFERENCES Users(username),
+            username VARCHAR(50) NOT NULL,
             authority VARCHAR(50) NOT NULL,
-            PRIMARY KEY (username, authority)
+            PRIMARY KEY (username, authority),
+            FOREIGN KEY (username) REFERENCES Users(username)
         );
         
         CREATE TABLE IF NOT EXISTS Posts (
             id BIGINT AUTO_INCREMENT PRIMARY KEY,
-            author VARCHAR(50) NOT NULL REFERENCES Users(username),
+            author VARCHAR(50) NOT NULL,
             title VARCHAR(255) NOT NULL,
             content TEXT NOT NULL,
             removed BOOLEAN NOT NULL DEFAULT 0,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (author) REFERENCES Users(username)
         );
         
         CREATE TABLE IF NOT EXISTS Comments (
             id BIGINT AUTO_INCREMENT PRIMARY KEY,
-            post_id BIGINT NOT NULL REFERENCES Posts(id),
-            author VARCHAR(50) NOT NULL REFERENCES Users(username),
+            post_id BIGINT NOT NULL,
+            author VARCHAR(50) NOT NULL,
             content TEXT NOT NULL,
             removed BOOLEAN NOT NULL DEFAULT 0,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (author) REFERENCES Users(username),
+            FOREIGN KEY (post_id) references Posts(id)
         );
     `)
 
