@@ -99,7 +99,8 @@ function generateTestData() {
         const author = `user${Math.floor(Math.random() * 4) + 1}`;
         const title = faker.word.words(3);
         const content = faker.word.words(15);
-        const removed = (Math.random() < 0.05);
+        //const removed = (Math.random() < 0.05);
+        const removed = false;
 
         //MySQL needs to be set to UTC, otherwise error in 'banned hours' during change from cet to cest (or otherwise)
         const time = faker.date.between(
@@ -144,6 +145,6 @@ connection.connect();
 //deleteAllData();
 generateTables();
 generateUsers();
-//generateTestData();
+generateTestData();
 
 connection.end();
