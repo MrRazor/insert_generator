@@ -93,6 +93,17 @@ function generateUsers() {
     console.log("Users generated.")
 }
 
+function generatePerfTestUser() {
+    const username = 'performance';
+    const salt = bcrypt.genSaltSync(10, 'a');
+    const hash = bcrypt.hashSync(username, salt);
+
+    connection.query(`INSERT INTO Users (username, password) VALUES (?, ?)`, [username, hash]);
+    connection.query(`INSERT INTO Authorities (username, authority) VALUES (?, ?)`, [username, 'ROLE_USER']);
+
+    console.log("Performance test user generated.")
+}
+
 function generateTestData() {
 
     for (let i = 0; i < 1_000; i++) {
@@ -146,5 +157,6 @@ connection.connect();
 generateTables();
 generateUsers();
 generateTestData();
+//generatePerfTestUser();
 
 connection.end();

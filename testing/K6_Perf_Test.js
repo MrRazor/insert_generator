@@ -1,6 +1,6 @@
 import http from "k6/http";
 
-let scenarios =  { 
+const scenarios =  {
   shared_iter_scenario: {
     executor: "shared-iterations",
     vus: 10,
@@ -13,9 +13,9 @@ let scenarios =  {
   }
 };
 
-let { scenario } = __ENV;
+const { scenario } = __ENV;
 
-export let options = {  
+export const options = {
   scenarios: scenario ? {
     [scenario]: scenarios[scenario]
   } : {}
