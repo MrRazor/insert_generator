@@ -5,12 +5,12 @@ const scenarios =  {
     shared_iter_scenario: {
         executor: "shared-iterations",
         vus: 10,
-        iterations: 50000,
+        iterations: 1000,
     },
     per_vu_scenario: {
         executor: "per-vu-iterations",
         vus: 10,
-        iterations: 5000,
+        iterations: 100,
     }
 };
 

@@ -155,8 +155,8 @@ connection.connect();
 
 //deleteAllData();
 generateTables();
-generateUsers();
-generateTestData();
-//generatePerfTestUser();
+//generateUsers();
+//generateTestData();
+generatePerfTestUser();
 
 connection.end();
