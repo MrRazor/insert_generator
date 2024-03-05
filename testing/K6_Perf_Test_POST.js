@@ -32,16 +32,17 @@ const params = {
 };
 
 export default function() {
+    const id = `${exec.scenario.iterationInTest + 1}`;
     const postData = {
-        title: `Title of Post ${exec.scenario.iterationInTest}`,
-        content: `Content of Post ${exec.scenario.iterationInTest}`
+        title: `Title of Post ${id}`,
+        content: `Content of Post ${id}`
     };
     http.post(`http://${credentials}@localhost:8080/api/posts/new`, JSON.stringify(postData), params);
 
     for(let i=1; i<=5; i++) {
         const commentData = {
-            content: `Content of Reply ${i} to Post ${exec.scenario.iterationInTest}`
+            content: `Content of Reply ${i} to Post ${id}`
         };
-        http.post(`http://${credentials}@localhost:8080/api/comments/new/${exec.scenario.iterationInTest}`, JSON.stringify(commentData), params);
+        http.post(`http://${credentials}@localhost:8080/api/comments/new/${id}`, JSON.stringify(commentData), params);
     }
 }
