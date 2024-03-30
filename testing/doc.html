@@ -1,0 +1,2025 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Boards API</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>
+        hljs.configure({
+            tabReplace: '    ',
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <style>body {
+    position: relative;
+}
+
+h1 {
+    margin-top: 5px;
+}
+
+h1, h2, h3, h4 {
+    color: #2b2b2b;
+}
+
+h2:after {
+    content: ' ';
+}
+
+h5 {
+    font-weight: bold;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    display: none;
+    position: absolute;
+    margin-left: 8px;
+}
+
+h1:hover a, h2:hover a, h3:hover a, h4:hover a, h5:hover a, h6:hover a {
+    color: #a5a5a5;
+    display: initial;
+}
+
+.nav.nav-tabs > li > a {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.tab-content {
+    padding-top: 8px;
+}
+
+.table {
+    margin-bottom: 8px;
+}
+
+pre {
+    border-radius: 0px;
+    border: none;
+}
+
+pre code {
+    margin: -9.5px;
+}
+
+.request {
+    margin-top: 12px;
+    margin-bottom: 24px;
+}
+
+.response-text-sample {
+    padding: 0px !important;
+}
+
+.response-text-sample pre {
+    margin-bottom: 0px;
+}
+
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 250px;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #2b2b2b;
+    padding-top: 20px;
+}
+
+#sidebar-wrapper ul {
+    width: 250px;
+}
+
+#sidebar-wrapper ul li {
+    margin-right: 10px;
+}
+
+#sidebar-wrapper ul li a:hover {
+    background: inherit;
+    text-decoration: none;
+}
+
+#sidebar-wrapper ul li a {
+    display: block;
+    color: #ECF0F1;
+    padding: 6px 15px;
+}
+
+#sidebar-wrapper ul li ul {
+    padding-left: 25px;
+}
+
+#sidebar-wrapper ul li ul li a {
+    padding: 1px 0px;
+}
+
+#sidebar-wrapper ul li a:hover,
+#sidebar-wrapper ul li a:focus {
+    color: #e0c46c;
+    border-right: solid 1px #e0c46c;
+}
+
+#sidebar-wrapper ul li.active > a {
+    color: #e0c46c;
+    border-right: solid 3px #e0c46c;
+}
+
+#sidebar-wrapper ul li:not(.active) ul {
+    display: none;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px 15px 15px 250px;
+}
+</style>
+</head>
+<body data-spy="scroll" data-target=".scrollspy">
+<div id="sidebar-wrapper">
+    <div class="scrollspy">
+    <ul id="main-menu" data-spy="affix" class="nav">
+        <li>
+            <a href="#doc-general-notes">General notes</a>
+        </li>
+        
+        <li>
+            <a href="#doc-api-detail">API detail</a>
+        </li>
+        
+        <li>
+            <a href="#request-index">Index</a>
+        </li>
+        
+        
+        
+        <li>
+            <a href="#folder-user">User</a>
+            <ul>
+                
+                <li>
+                    <a href="#request-user-register">register</a>
+                </li>
+                
+                <li>
+                    <a href="#request-user-current-user-info">current user info</a>
+                </li>
+                
+                <li>
+                    <a href="#request-user-change-password">change password</a>
+                </li>
+                
+            </ul>
+        </li>
+        
+        
+        <li>
+            <a href="#folder-posts">Posts</a>
+            <ul>
+                
+                <li>
+                    <a href="#request-posts-new">new</a>
+                </li>
+                
+                <li>
+                    <a href="#request-posts-update">update</a>
+                </li>
+                
+                <li>
+                    <a href="#request-posts-single-post">single post</a>
+                </li>
+                
+                <li>
+                    <a href="#request-posts-all">all</a>
+                </li>
+                
+                <li>
+                    <a href="#request-posts-all-paged">all paged</a>
+                </li>
+                
+            </ul>
+        </li>
+        
+        
+        <li>
+            <a href="#folder-comments">Comments</a>
+            <ul>
+                
+                <li>
+                    <a href="#request-comments-new">new</a>
+                </li>
+                
+                <li>
+                    <a href="#request-comments-update">update</a>
+                </li>
+                
+                <li>
+                    <a href="#request-comments-single-comment">single comment</a>
+                </li>
+                
+                <li>
+                    <a href="#request-comments-all-for-post">all for post</a>
+                </li>
+                
+                <li>
+                    <a href="#request-comments-all-for-post-paged">all for post paged</a>
+                </li>
+                
+            </ul>
+        </li>
+        
+        
+        <li>
+            <a href="#folder-admin">Admin</a>
+            <ul>
+                
+                <li>
+                    <a href="#request-admin-disable-user">disable user</a>
+                </li>
+                
+                <li>
+                    <a href="#request-admin-remove-comment">remove comment</a>
+                </li>
+                
+                <li>
+                    <a href="#request-admin-remove-post">remove post</a>
+                </li>
+                
+            </ul>
+        </li>
+        
+    </ul>
+</div>
+
+</div>
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Boards API</h1>
+
+                <h2 id="doc-general-notes">
+                    General notes
+                    <a href="#doc-general-notes"><i class="glyphicon glyphicon-link"></i></a>
+                </h2>
+
+                
+
+                
+
+                <h2 id="doc-api-detail">
+                    API detail
+                    <a href="#doc-api-detail"><i class="glyphicon glyphicon-link"></i></a>
+                </h2>
+
+                
+                
+                <div class="request">
+
+                    <h3 id="request-index">
+                        Index
+                        <a href="#request-index"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div></div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-index-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-index-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-index-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "localhost:8080"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-index-example-http">
+                                <pre><code class="hljs http">GET 8080 HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-index-responses-2bf37b61-5512-43d0-99bf-cec1ebea10b5" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-index-responses-2bf37b61-5512-43d0-99bf-cec1ebea10b5">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-Type</th><td>text/html</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-Length</th><td>128</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 22:07:17 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                    
+                                    
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+
+
+                
+                
+                <div class="endpoints-group">
+                    <h3 id="folder-user">
+                        User
+                        <a href="#folder-user"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div></div>
+
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-user-register">
+                            register
+                            <a href="#request-user-register"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-user-register-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-user-register-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-user-register-example-curl">
+                                    <pre><code class="hljs curl">curl -X POST -d '{
+    "username": "{{username}}",
+    "password": "{{password}}"
+}' "localhost:8080/api/user/register"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-user-register-example-http">
+                                    <pre><code class="hljs http">POST 8080/api/user/register HTTP/1.1
+Host: 
+
+{
+    "username": "{{username}}",
+    "password": "{{password}}"
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-user-register-responses-26ef2809-7690-46ad-9958-4e56c895a0c3" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-user-register-responses-26ef2809-7690-46ad-9958-4e56c895a0c3">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:25:15 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "text": "Created user with username: newUsername!"
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-user-current-user-info">
+                            current user info
+                            <a href="#request-user-current-user-info"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-user-current-user-info-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-user-current-user-info-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-user-current-user-info-example-curl">
+                                    <pre><code class="hljs curl">curl -X GET "localhost:8080/api/user/current-user"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-user-current-user-info-example-http">
+                                    <pre><code class="hljs http">GET 8080/api/user/current-user HTTP/1.1
+Host: </code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-user-current-user-info-responses-d22b3b49-58ee-4f6f-ac93-05fb98106f86" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-user-current-user-info-responses-d22b3b49-58ee-4f6f-ac93-05fb98106f86">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:26:03 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "username": "newUsername",
+    "enabled": true,
+    "authorities": [
+        {
+            "authorityName": "ROLE_USER"
+        }
+    ]
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-user-change-password">
+                            change password
+                            <a href="#request-user-change-password"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-user-change-password-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-user-change-password-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-user-change-password-example-curl">
+                                    <pre><code class="hljs curl">curl -X POST -d '{
+    "oldPassword":"{{password}}",
+    "newPassword":"{{newPassword}}"
+}' "localhost:8080/api/user/change-password"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-user-change-password-example-http">
+                                    <pre><code class="hljs http">POST 8080/api/user/change-password HTTP/1.1
+Host: 
+
+{
+    "oldPassword":"{{password}}",
+    "newPassword":"{{newPassword}}"
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-user-change-password-responses-55c86e5c-492c-4f35-a050-22bc09c6633d" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-user-change-password-responses-55c86e5c-492c-4f35-a050-22bc09c6633d">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:26:15 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "text": "Password for user: newUsername successfully changed!"
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+
+                </div>
+                
+                
+                <div class="endpoints-group">
+                    <h3 id="folder-posts">
+                        Posts
+                        <a href="#folder-posts"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div></div>
+
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-posts-new">
+                            new
+                            <a href="#request-posts-new"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-posts-new-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-posts-new-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-posts-new-example-curl">
+                                    <pre><code class="hljs curl">curl -X POST -d '{
+    "title": "{{postTitle}}",
+    "content": "{{postContent}}"
+}' "localhost:8080/api/posts/new"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-posts-new-example-http">
+                                    <pre><code class="hljs http">POST 8080/api/posts/new HTTP/1.1
+Host: 
+
+{
+    "title": "{{postTitle}}",
+    "content": "{{postContent}}"
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-posts-new-responses-f15f6671-018a-42c8-8279-ec3f10c3f016" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-posts-new-responses-f15f6671-018a-42c8-8279-ec3f10c3f016">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:26:25 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "text": "New post with id 1 created"
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-posts-update">
+                            update
+                            <a href="#request-posts-update"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-posts-update-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-posts-update-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-posts-update-example-curl">
+                                    <pre><code class="hljs curl">curl -X POST -d '{
+    "title": "{{updatedPostTitle}}",
+    "content": "{{updatedPostContent}}"
+}' "localhost:8080/api/posts/update/{{postId}}"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-posts-update-example-http">
+                                    <pre><code class="hljs http">POST 8080/api/posts/update/{{postId}} HTTP/1.1
+Host: 
+
+{
+    "title": "{{updatedPostTitle}}",
+    "content": "{{updatedPostContent}}"
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-posts-update-responses-fe84460c-b42b-47aa-8ac0-658660b8ec01" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-posts-update-responses-fe84460c-b42b-47aa-8ac0-658660b8ec01">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:26:31 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "text": "Post with id 1 successfully updated"
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-posts-single-post">
+                            single post
+                            <a href="#request-posts-single-post"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-posts-single-post-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-posts-single-post-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-posts-single-post-example-curl">
+                                    <pre><code class="hljs curl">curl -X GET "localhost:8080/api/posts/post/{{postId}}"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-posts-single-post-example-http">
+                                    <pre><code class="hljs http">GET 8080/api/posts/post/{{postId}} HTTP/1.1
+Host: </code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-posts-single-post-responses-04bea681-e5c2-4b85-818a-0afbb288baea" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-posts-single-post-responses-04bea681-e5c2-4b85-818a-0afbb288baea">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:26:36 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "id": 1,
+    "author": {
+        "username": "newUsername",
+        "enabled": true
+    },
+    "content": "updatedContent",
+    "removed": false,
+    "createdAt": "2024-01-20T19:26:25.000+00:00",
+    "updatedAt": "2024-01-20T19:26:31.000+00:00",
+    "title": "updatedTitle"
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-posts-all">
+                            all
+                            <a href="#request-posts-all"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-posts-all-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-posts-all-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-posts-all-example-curl">
+                                    <pre><code class="hljs curl">curl -X GET "localhost:8080/api/posts/all"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-posts-all-example-http">
+                                    <pre><code class="hljs http">GET 8080/api/posts/all HTTP/1.1
+Host: </code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-posts-all-responses-8b916eba-54c4-424f-b83f-188e0bd96a10" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-posts-all-responses-8b916eba-54c4-424f-b83f-188e0bd96a10">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:26:42 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>[
+    {
+        "id": 1,
+        "author": {
+            "username": "newUsername",
+            "enabled": true
+        },
+        "content": "updatedContent",
+        "removed": false,
+        "createdAt": "2024-01-20T19:26:25.000+00:00",
+        "updatedAt": "2024-01-20T19:26:31.000+00:00",
+        "title": "updatedTitle"
+    }
+]</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-posts-all-paged">
+                            all paged
+                            <a href="#request-posts-all-paged"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-posts-all-paged-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-posts-all-paged-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-posts-all-paged-example-curl">
+                                    <pre><code class="hljs curl">curl -X GET "localhost:8080/api/posts/all-paged?page={{page}}&size={{pageSize}}"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-posts-all-paged-example-http">
+                                    <pre><code class="hljs http">GET 8080/api/posts/all-paged?page={{page}}&size={{pageSize}} HTTP/1.1
+Host: </code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-posts-all-paged-responses-8580b34c-b4bf-4e50-87d7-a6ddf14f2e7d" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-posts-all-paged-responses-8580b34c-b4bf-4e50-87d7-a6ddf14f2e7d">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:26:47 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>[
+    {
+        "id": 1,
+        "author": {
+            "username": "newUsername",
+            "enabled": true
+        },
+        "content": "updatedContent",
+        "removed": false,
+        "createdAt": "2024-01-20T19:26:25.000+00:00",
+        "updatedAt": "2024-01-20T19:26:31.000+00:00",
+        "title": "updatedTitle"
+    }
+]</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+
+                </div>
+                
+                
+                <div class="endpoints-group">
+                    <h3 id="folder-comments">
+                        Comments
+                        <a href="#folder-comments"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div></div>
+
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-comments-new">
+                            new
+                            <a href="#request-comments-new"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-comments-new-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-comments-new-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-comments-new-example-curl">
+                                    <pre><code class="hljs curl">curl -X POST -d '{
+    "content": "{{commentContent}}"
+}' "localhost:8080/api/comments/new/{{postId}}"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-comments-new-example-http">
+                                    <pre><code class="hljs http">POST 8080/api/comments/new/{{postId}} HTTP/1.1
+Host: 
+
+{
+    "content": "{{commentContent}}"
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-comments-new-responses-5b10ad29-2b54-49fb-879b-54c14609a966" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-comments-new-responses-5b10ad29-2b54-49fb-879b-54c14609a966">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:27:01 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "text": "New comment with id 1 created"
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-comments-update">
+                            update
+                            <a href="#request-comments-update"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-comments-update-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-comments-update-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-comments-update-example-curl">
+                                    <pre><code class="hljs curl">curl -X POST -d '{
+    "content": "{{updatedCommentContent}}"
+}' "localhost:8080/api/comments/update/{{commentId}}"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-comments-update-example-http">
+                                    <pre><code class="hljs http">POST 8080/api/comments/update/{{commentId}} HTTP/1.1
+Host: 
+
+{
+    "content": "{{updatedCommentContent}}"
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-comments-update-responses-880f9e48-a7e0-432d-b581-0637cd4e5551" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-comments-update-responses-880f9e48-a7e0-432d-b581-0637cd4e5551">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:27:07 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "text": "Comment with id 1 successfully updated"
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-comments-single-comment">
+                            single comment
+                            <a href="#request-comments-single-comment"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-comments-single-comment-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-comments-single-comment-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-comments-single-comment-example-curl">
+                                    <pre><code class="hljs curl">curl -X GET "localhost:8080/api/comments/comment/{{commentId}}"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-comments-single-comment-example-http">
+                                    <pre><code class="hljs http">GET 8080/api/comments/comment/{{commentId}} HTTP/1.1
+Host: </code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-comments-single-comment-responses-ff326624-d7c6-4f1b-860e-61a18f5a35e6" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-comments-single-comment-responses-ff326624-d7c6-4f1b-860e-61a18f5a35e6">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:27:12 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "id": 1,
+    "author": {
+        "username": "newUsername",
+        "enabled": true
+    },
+    "content": "updatedComment",
+    "removed": false,
+    "createdAt": "2024-01-20T19:27:01.000+00:00",
+    "updatedAt": "2024-01-20T19:27:07.000+00:00"
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-comments-all-for-post">
+                            all for post
+                            <a href="#request-comments-all-for-post"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-comments-all-for-post-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-comments-all-for-post-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-comments-all-for-post-example-curl">
+                                    <pre><code class="hljs curl">curl -X GET "localhost:8080/api/comments/all/{{postId}}"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-comments-all-for-post-example-http">
+                                    <pre><code class="hljs http">GET 8080/api/comments/all/{{postId}} HTTP/1.1
+Host: </code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-comments-all-for-post-responses-67508d54-89dd-4d20-a4e0-8e3c87245033" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-comments-all-for-post-responses-67508d54-89dd-4d20-a4e0-8e3c87245033">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:27:18 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>[
+    {
+        "id": 1,
+        "author": {
+            "username": "newUsername",
+            "enabled": true
+        },
+        "content": "updatedComment",
+        "removed": false,
+        "createdAt": "2024-01-20T19:27:01.000+00:00",
+        "updatedAt": "2024-01-20T19:27:07.000+00:00"
+    }
+]</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-comments-all-for-post-paged">
+                            all for post paged
+                            <a href="#request-comments-all-for-post-paged"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-comments-all-for-post-paged-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-comments-all-for-post-paged-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-comments-all-for-post-paged-example-curl">
+                                    <pre><code class="hljs curl">curl -X GET "localhost:8080/api/comments/all-paged/{{postId}}?page={{page}}&size={{pageSize}}"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-comments-all-for-post-paged-example-http">
+                                    <pre><code class="hljs http">GET 8080/api/comments/all-paged/{{postId}}?page={{page}}&size={{pageSize}} HTTP/1.1
+Host: </code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-comments-all-for-post-paged-responses-cd977ba2-4204-41cf-89c3-1b7d823a8364" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-comments-all-for-post-paged-responses-cd977ba2-4204-41cf-89c3-1b7d823a8364">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:27:24 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>[
+    {
+        "id": 1,
+        "author": {
+            "username": "newUsername",
+            "enabled": true
+        },
+        "content": "updatedComment",
+        "removed": false,
+        "createdAt": "2024-01-20T19:27:01.000+00:00",
+        "updatedAt": "2024-01-20T19:27:07.000+00:00"
+    }
+]</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+
+                </div>
+                
+                
+                <div class="endpoints-group">
+                    <h3 id="folder-admin">
+                        Admin
+                        <a href="#folder-admin"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div></div>
+
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-admin-disable-user">
+                            disable user
+                            <a href="#request-admin-disable-user"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-admin-disable-user-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-admin-disable-user-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-admin-disable-user-example-curl">
+                                    <pre><code class="hljs curl">curl -X POST -d '{
+    "username": "{{blockUsername}}"
+}' "localhost:8080/api/user/disable-user"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-admin-disable-user-example-http">
+                                    <pre><code class="hljs http">POST 8080/api/user/disable-user HTTP/1.1
+Host: 
+
+{
+    "username": "{{blockUsername}}"
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-admin-disable-user-responses-f69f39b9-2343-4c30-85dc-5594e6dd266c" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-admin-disable-user-responses-f69f39b9-2343-4c30-85dc-5594e6dd266c">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:27:34 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "text": "User: newUsername was blocked!"
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-admin-remove-comment">
+                            remove comment
+                            <a href="#request-admin-remove-comment"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-admin-remove-comment-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-admin-remove-comment-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-admin-remove-comment-example-curl">
+                                    <pre><code class="hljs curl">curl -X POST "localhost:8080/api/comments/remove/{{commentId}}"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-admin-remove-comment-example-http">
+                                    <pre><code class="hljs http">POST 8080/api/comments/remove/{{commentId}} HTTP/1.1
+Host: </code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-admin-remove-comment-responses-445e8436-7a8c-423a-8434-5a6a6d249e4f" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-admin-remove-comment-responses-445e8436-7a8c-423a-8434-5a6a6d249e4f">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:27:41 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "text": "Comment with id 1 successfully removed"
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+                    
+                    <div class="request">
+
+                        <h4 id="request-admin-remove-post">
+                            remove post
+                            <a href="#request-admin-remove-post"><i class="glyphicon glyphicon-link"></i></a>
+                        </h4>
+
+                        <div></div>
+
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#request-admin-remove-post-example-curl" data-toggle="tab">Curl</a></li>
+                                <li role="presentation"><a href="#request-admin-remove-post-example-http" data-toggle="tab">HTTP</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="request-admin-remove-post-example-curl">
+                                    <pre><code class="hljs curl">curl -X POST "localhost:8080/api/posts/remove/{{postId}}"</code></pre>
+                                </div>
+                                <div class="tab-pane" id="request-admin-remove-post-example-http">
+                                    <pre><code class="hljs http">POST 8080/api/posts/remove/{{postId}} HTTP/1.1
+Host: </code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                
+                                <li role="presentation" class="active">
+                                    <a href="#request-admin-remove-post-responses-9e2708cc-9f70-48b6-a636-23de269a06d0" data-toggle="tab">
+                                        
+                                            Response
+                                        
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="tab-content">
+                                
+                                <div class="tab-pane active" id="request-admin-remove-post-responses-9e2708cc-9f70-48b6-a636-23de269a06d0">
+                                    <table class="table table-bordered">
+                                        <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Origin</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Method</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Vary</th><td>Access-Control-Request-Headers</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Content-Type-Options</th><td>nosniff</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-XSS-Protection</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Cache-Control</th><td>no-cache, no-store, max-age=0, must-revalidate</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Pragma</th><td>no-cache</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Expires</th><td>0</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">X-Frame-Options</th><td>DENY</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Content-Type</th><td>application/json</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Transfer-Encoding</th><td>chunked</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Date</th><td>Sat, 20 Jan 2024 20:27:48 GMT</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Keep-Alive</th><td>timeout=60</td></tr>
+                                        
+                                        <tr><th style="width: 20%;">Connection</th><td>keep-alive</td></tr>
+                                        
+                                        
+                                            
+                                            <tr><td class="response-text-sample" colspan="2">
+                                                <pre><code>{
+    "text": "Post with id 1 successfully removed"
+}</code></pre>
+                                            </td></tr>
+                                            
+                                        
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+
+                        <hr>
+                    </div>
+                    
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("table:not(.table)").addClass('table table-bordered');
+    });
+</script>
+</body>
+</html>
