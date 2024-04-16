@@ -1,0 +1,20 @@
+embed-server --server-config=standalone.xml --std-out=echo
+    
+batch
+
+#
+# add the module
+#
+module add --name=com.mysql --resources=${user.home}/Downloads/mysql-connector-j-8.2.0.jar
+
+#
+# create the driver
+#
+/subsystem=datasources/jdbc-driver=mysql:add(driver-name="mysql",driver-module-name="com.mysql",driver-class-name=com.mysql.cj.jdbc.Driver)
+
+#
+# create the datasource
+#
+/subsystem=datasources/data-source=BoardsDS/:add(connection-url=jdbc:mysql://localhost:3306/boards-app,driver-name=mysql,jndi-name=java:jboss/datasources/BoardsDS,password=password,user-name=root)
+
+run-batch

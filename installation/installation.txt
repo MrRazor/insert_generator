@@ -1,0 +1,19 @@
+1. Create MySQL 8.0 database using provided SQL (boards-app.sql)
+    - MySQL Community 8.0.35 was used during development and testing
+2. Download WildFly (https://www.wildfly.org/downloads/) and unpack it
+    - Distribution 30.0.1 version was used during development and testing
+3. In WildFly folder, run script ./bin/add-user.bat (or .sh / .ps1) and add management user
+3. Obtain MySQL JDBC driver (https://dev.mysql.com/downloads/connector/j/), unpack it to get jar file
+    - MySQL JDBC driver 8.2.0 is used in Spring Boot application and was used in Wildfly during development and testing
+4. Edit provided create_resources.cli file and run it
+    - Change path of MySQL JDBC driver in add the module part
+    - Change connection-url, password, user-name in create the datasource part
+6. In WildFly folder, run script ./bin/standalone.bat (or .sh / .ps1) to run Wildfly, go to management console (http://localhost:9990) and login with management user
+    - In Configuration -> Subsystems -> Datasources & Drivers -> Datasources, you can configure BoardsDS datasource (disable it, configure connection pool etc.)
+    - To be able to run Jakarta EE application, it is needed to disable Integrated JASPI. It can be done in Subsystems -> Web -> Application Security Domain -> other
+    - After configuration, turn off WildFly server (shutdown stanadalone script)
+7. Clone Spring Application (https://github.com/MrRazor/boards-app-spring), and Jakarta EE Application (https://github.com/MrRazor/boards-app-jakarta)
+8. Change spring.datasource.username, password, url in Spring Boot Application
+9. Build ROOT.war file of application (Spring or Jakarta EE) using maven clean install, and place it in WildFly folder to ./standalone/deployments
+10. In WildFly folder, run script ./bin/standalone.bat (or .sh / .ps1) to run Wildfly
+    - Check if application is working: Go to http://localhost:8080, you will see Welcome text of Jakarta EE / Spring Application
