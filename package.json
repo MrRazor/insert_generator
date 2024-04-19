@@ -1,11 +1,7 @@
 {
   "name": "insert_generator",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
-  "scripts": {},
-  "author": "",
-  "license": "ISC",
   "type": "module",
   "dependencies": {
     "@faker-js/faker": "8.3.1",
