@@ -1,7 +1,7 @@
 import http from "k6/http";
 import exec from 'k6/execution';
 
-const scenarios =  {
+const predefinedScenarios =  {
     shared_iter_scenario: {
         executor: "shared-iterations",
         vus: 10,
@@ -14,13 +14,13 @@ const scenarios =  {
     }
 };
 
-const { scenario } = __ENV;
-
 export const options = {
-    scenarios: scenario ? {
-        [scenario]: scenarios[scenario]
-    } : {}
-};
+    scenarios: {},
+}
+
+if (__ENV.scenario) {
+    options.scenarios[__ENV.scenario] = predefinedScenarios[__ENV.scenario];
+}
 
 const username = `performance`;
 const password = `performance`;

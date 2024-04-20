@@ -2,20 +2,28 @@
     - MySQL Community 8.0.35 was used during development and testing
 2. Download WildFly (https://www.wildfly.org/downloads/) and unpack it
     - Distribution 30.0.1 version was used during development and testing
-3. In WildFly folder, run script .\bin\add-user.bat (or .sh / .ps1) to add management user (keep group option blank)
+3. In WildFly folder, run script .\bin\add-user.bat to add management user (keep group option blank)
 4. Obtain MySQL JDBC driver (https://dev.mysql.com/downloads/connector/j/), unpack it to get jar file
     - MySQL JDBC driver 8.2.0 is used in Spring Boot application and was used in Wildfly during development and testing
-5. Edit provided create_resources.cli file
-    - Change path of MySQL JDBC driver in add the module part
-    - Change connection-url, password, user-name in create the datasource part
-6. In WildFly folder, run script .\bin\jboss-cli.bat (or .sh / .ps1) with file parameter to install resources from previous file
-    - You can move create_resources.cli to WildFly folder and run: .\bin\jboss-cli.bat --file=create_resources.cli
-7. In WildFly folder, run script .\bin\standalone.bat (or .sh / .ps1) to run Wildfly, go to management console (http://localhost:9990) and login with management user
-    - In Configuration -> Subsystems -> Datasources & Drivers -> Datasources, you can configure BoardsDS datasource (disable it, configure connection pool etc.)
+5. Create Datasource
+    - Move MySQL JDBC driver JAR file to WildFly folder
+    - In WildFly folder, run script .\bin\standalone.bat (to run WildFly server)
+    - In new cli (in WildFly folder), run script .\bin\jboss-cli.bat
+    - Run these 4 commands one by one in jboss-cli
+        - Change name of MySQL JDBC driver JAR file in second command if needed
+        - Change connection-url, password, user-name in the last command
+    - Commands (use without dash at start of line):
+        - connect
+        - module add --name=com.mysql --resources=./mysql-connector-j-8.2.0.jar
+        - /subsystem=datasources/jdbc-driver=mysql:add(driver-name="mysql",driver-module-name="com.mysql",driver-class-name=com.mysql.cj.jdbc.Driver)
+        - data-source add --jndi-name=java:jboss/datasources/BoardsDS --name=BoardsDS --connection-url=jdbc:mysql://localhost:3306/boards-app --driver-name=mysql --user-name=root --password=password
+    - Quit jboss-cli.bat and keep WildFly server (standalone.bat) running
+6. Go to WildFly management console (http://localhost:9990) and login with management user
+    - In Configuration -> Subsystems -> Datasources & Drivers -> Datasources, you can configure BoardsDS datasource (enable/disable it, configure connection pool etc.)
     - To be able to run Jakarta EE application, it is needed to disable Integrated JASPI. It can be done in Subsystems -> Web -> Application Security Domain -> other
     - After configuration, turn off WildFly server (shutdown stanadalone script)
-8. Clone Spring Application (https://github.com/MrRazor/boards-app-spring), and Jakarta EE Application (https://github.com/MrRazor/boards-app-jakarta)
-9. Change spring.datasource.username, password, url in Spring Boot Application
-10. Build ROOT.war file of application (Spring or Jakarta EE) using maven clean install, and place it in WildFly folder to .\standalone\deployments
-11. In WildFly folder, run script .\bin\standalone.bat (or .sh / .ps1) to run Wildfly
+7. Clone Spring Application (https://github.com/MrRazor/boards-app-spring), and Jakarta EE Application (https://github.com/MrRazor/boards-app-jakarta)
+8. Change spring.datasource.username, password, url in Spring Boot Application
+9. Build ROOT.war file of application (Spring or Jakarta EE) using maven clean install, and place it in WildFly folder to .\standalone\deployments
+10. In WildFly folder, run script .\bin\standalone.bat to run Wildfly
     - Check if application is working: Go to http://localhost:8080, you will see Welcome text of Jakarta EE / Spring Application
