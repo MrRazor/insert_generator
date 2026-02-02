@@ -135,10 +135,8 @@ function generateTestData() {
         const content = faker.word.words(5);
         const removed = (Math.random() < 0.05);
 
-        const fromTime = connection.query(`SELECT created_at FROM Posts where id=` + post_id);
-
         //MySQL needs to be set to UTC, otherwise error in 'banned hours' during change from cet to cest (or otherwise)
-        const time = faker.date.soon({days: 10, refDate: fromTime});
+        const time = faker.date.soon({days: 10});
 
         const updateTime = ((Math.random() < 0.05) || removed) ? faker.date.soon({days: 10, refDate: time}) : time;
 
@@ -155,8 +153,8 @@ connection.connect();
 
 //deleteAllData();
 generateTables();
-//generateUsers();
-//generateTestData();
-generatePerfTestUser();
+generateUsers();
+generateTestData();
+//generatePerfTestUser();
 
 connection.end();
